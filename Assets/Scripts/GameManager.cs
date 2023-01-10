@@ -11,50 +11,48 @@ public class GameManager : MonoBehaviour
 
     public GameUI gameUI;
 
+    [SerializeField] private PlayerCollector playerCollector;
+
+    [SerializeField] private List<Location> locations;
+    private Location activeLocation;
+    private int activeLocationIndex;
     #endregion
 
     #region Fields
 
-    [Space(30)]
-    [Header("Fields")]
-    [SerializeField]
-    private int p_money;
-    [SerializeField]
-    private int p_moneyPerSecond = 0;
+/*    [Space(30)]
+    [Header("Fields")]*/
 
     #endregion
 
     #region Unity Methods
+
     private void Start()
     {
-        p_money = 0;
-        StartCoroutine(AddMoneyPerSecond());
+        activeLocationIndex = 0;
+        activeLocation = locations[activeLocationIndex];
+        activeLocation.isActive = true;
+
+        playerCollector.LoadCollection();
+
+        gameUI.InitUI();
     }
+
     #endregion
 
     #region Methods
 
-    public void UpdateMoneyOnClick()
+    public void MakeTic()
     {
-        UpdateMoney(1);
+        Debug.Log("Make Tic in GameManager");
+
+        if (activeLocation == null) { return;}
+
+        activeLocation.MakeTic();
     }
 
-    private void UpdateMoney(int value)
-    {
-        p_money+= value;
-        // Update UI
-        gameUI.UpdateMoneyText(p_money.ToString());
-    } 
+    public Location GetActiveLocation() { return activeLocation; }
 
     #endregion
-
-    IEnumerator AddMoneyPerSecond()
-    {
-        while(true)
-        {
-            yield return new WaitForSeconds(1);
-            UpdateMoney(p_moneyPerSecond);
-        }
-    }
 
 }
