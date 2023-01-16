@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
 
     public void ChangeLocation(int index)
     {
+        if (!locations[index].isActive) return;
+
         activeLocationIndex = index;
         activeLocation = locations[index];
         activeLocation.isActive = true;

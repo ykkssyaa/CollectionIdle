@@ -59,6 +59,14 @@ public class GameUI : MonoBehaviour
         ShopScreen.SetActive(false);
     }
 
+    public void LocationChooseButton(int index)
+    {
+        // Check if active Location
+        gameManager.ChangeLocation(index);
+
+        // else try buy acsess to location
+    }
+
     #region Shop
 
     public void OnUpgradeClickPrice() 
