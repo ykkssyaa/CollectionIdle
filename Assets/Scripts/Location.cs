@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Location : MonoBehaviour
 {
-    
+
+    #region Serialized Fields
     [SerializeField] private PlayerCollector collector;
 
     private List<EggInform> eggs = new List<EggInform> {
@@ -13,15 +14,22 @@ public class Location : MonoBehaviour
         new EggInform("Серебрянное", "", 10, 0.05f),
         new EggInform("Золотое", "", 50, 0.018f),
         new EggInform("Алмазное", "", 100, 0.002f),
+
     };
+
+    public Shop shop;
+    #endregion
 
     #region Fields
     [Space(30)]
     [Header("Fields")]
 
+    // Шансы выпадения яиц(6 - специальное яйцо)
+    [SerializeField] private float[] weights = new float[6] { 0, 0, 0, 0, 0, 0};
+
     // Сколько кликов будет делать автокликер за один раз
-    [SerializeField] private int clicksPerTic = 0;
-    [SerializeField] private int clicksPerClick = 1;
+    public int clicksPerTic = 0;
+    public int clicksPerClick = 1;
     // Раз в сколько секунд будет работать автокликер
     [SerializeField] private int secondsInTic = 1;
 
@@ -32,6 +40,9 @@ public class Location : MonoBehaviour
 
     public string locName;
     public bool isActive = false;
+
+    public float luckValue = 0.0f;
+
     #endregion
 
     public IEnumerator AutoClicker()
@@ -39,9 +50,50 @@ public class Location : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(secondsInTic);
-            MakeTic();
+
+            for(int i = 0; i < clicksPerTic; i++)
+            {
+                MakeTic();
+            }
+            
         }
     }
+
+    #region Methods
+
+    public void InitLocation()
+    {
+        CheckWeights();
+        shop = InitShop();
+
+        StartCoroutine(AutoClicker());
+        
+        for(int i = 0; i < eggs.Count; i++)
+        {
+            eggs[i].weight = weights[i];
+        }
+    }
+
+    // Инициализация класса с ценами на улучшения
+    public Shop InitShop()
+    {
+        Shop s = new Shop(1, 1, 1);
+
+        return s;
+    }
+
+    // Проверка корректности ввода шансов выпадения
+    private void CheckWeights()
+    {
+        float res = 0;
+
+        foreach(float w in weights)
+            res += w;
+
+        string logStr = string.Format("Location {0} has wrong chance weights, sum = {1}", locName, res);
+
+        if(res > 1 || res <= 0) Debug.Log(logStr);
+    } 
 
     // Сделать клик 
     public void MakeTic()
@@ -69,15 +121,19 @@ public class Location : MonoBehaviour
         collector.gameUI.UpdateClicksToReward();
     }
 
+    // Определение, какое яйцо выпадет
     private void EarnRandomEgg()
     {
-        Debug.Log("Earn New Egg");
+        Debug.Log("Earn New Egg in " + locName) ;
 
         float val = Random.value;
+        float t = 0;
 
         foreach(var item in eggs)
         {
-            if(item.weight <= val)
+            t += item.weight;
+
+            if(t >= val)
             {
                 collector.UpdateCollection(item.name);
                 break;
@@ -85,11 +141,40 @@ public class Location : MonoBehaviour
         }
     }
 
+    #region Upgrade 
+
+    public void UpgradeClickPrice(int value = 1)
+    {
+        clicksPerClick = clicksPerClick + value;
+    }
+
+    public void UpgradeClicksPerTick(int value = 1)
+    {
+        clicksPerTic = clicksPerTic + value;
+    }
+
+    public void UpgradeLuck(float value = 0.005f)
+    {
+        luckValue = luckValue + value;
+    }
+
+    #endregion
+
+    #endregion
 }
 
-public class EggMiner
+public class Shop
 {
+    public int ClickPricePrice;
+    public int ClicksPerTickPrice;
+    public int LuckPrice;
 
+    public Shop(int ClickPricePrice, int ClicksPerTickPrice, int LuckPrice)
+    {
+        this.ClickPricePrice = ClickPricePrice;
+        this.LuckPrice = LuckPrice;
+        this.ClicksPerTickPrice = ClicksPerTickPrice;
+    }
 }
 
 public class EggInform : Egg
@@ -99,6 +184,11 @@ public class EggInform : Egg
     public EggInform(string n, string d, int p, float weight) : base(n, d, p)
     {
         this.weight = weight;
+    }
+
+    public EggInform(string n, string d, int p) : base(n, d, p)
+    {
+        this.weight = 0;
     }
 }
 

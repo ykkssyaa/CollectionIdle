@@ -23,11 +23,11 @@ public class PlayerCollector : MonoBehaviour
     public void LoadCollection()
     {
         money = 0;
-        collection[0].count = 10;
-        collection[1].count = 50;
-        collection[2].count = 100;
-        collection[3].count = 300;
-        collection[4].count = 500;
+        collection[0].count = 0;
+        collection[1].count = 0;
+        collection[2].count = 0;
+        collection[3].count = 0;
+        collection[4].count = 0;
     }
 
     public void UpdateMoney(int value)
@@ -38,6 +38,8 @@ public class PlayerCollector : MonoBehaviour
 
     public void UpdateCollection(string name, int value = 1)
     {
+        Debug.Log("Add " + name);
+
         foreach(var item in collection)
         {
             if(item.name== name) { item.count += value; break; }

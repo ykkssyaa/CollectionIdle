@@ -29,13 +29,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        activeLocationIndex = 0;
-        activeLocation = locations[activeLocationIndex];
-        activeLocation.isActive = true;
+        // Location settings
+        InitAllLocations();
+        ChangeLocation(0);
 
         playerCollector.LoadCollection();
 
         gameUI.InitUI();
+
     }
 
     #endregion
@@ -49,6 +50,24 @@ public class GameManager : MonoBehaviour
         if (activeLocation == null) { return;}
 
         activeLocation.MakeTic();
+    }
+
+    public void ChangeLocation(int index)
+    {
+        activeLocationIndex = index;
+        activeLocation = locations[index];
+        activeLocation.isActive = true;
+
+        gameUI.ChangeLocationName(activeLocation.locName);
+        gameUI.UpdateShop();
+    }
+
+    private void InitAllLocations()
+    {
+        foreach(var location in locations)
+        {
+            if(location.isActive) location.InitLocation();
+        }
     }
 
     public Location GetActiveLocation() { return activeLocation; }
