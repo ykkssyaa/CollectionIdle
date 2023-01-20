@@ -1,18 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class CollectEgg : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public EggCollection egg;
+
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private Image image;
+    [SerializeField] private Sprite lockedSprite;
+    [SerializeField] private Sprite unlockedSprite;
+
+    public void InitEgg() 
     {
-        
+        if(!egg.isEarned) 
+        { 
+            nameText.text = "???";
+            image.sprite = lockedSprite;
+        }
+        else
+        {
+            UnlockEgg();
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UnlockEgg()
     {
-        
+        nameText.text = egg.name;
+        image.sprite = unlockedSprite;
     }
+
+    
+}
+
+[System.Serializable]
+public class CollectEggInfo
+{
+    public CollectEgg egg;
+    public float weight;
 }

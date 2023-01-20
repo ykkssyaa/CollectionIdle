@@ -9,13 +9,23 @@ public class Location : MonoBehaviour
     [SerializeField] private PlayerCollector collector;
 
     private List<EggInform> eggs = new List<EggInform> {
-        new EggInform("Белое", "", 1, 0.85f),
-        new EggInform("Коричневое", "", 3, 0.08f),
-        new EggInform("Серебрянное", "", 10, 0.05f),
-        new EggInform("Золотое", "", 50, 0.018f),
-        new EggInform("Алмазное", "", 100, 0.002f),
+        new EggInform("Белое", 1, 0.85f),
+        new EggInform("Коричневое", 3, 0.08f),
+        new EggInform("Серебрянное", 10, 0.05f),
+        new EggInform("Золотое", 50, 0.018f),
+        new EggInform("Алмазное", 100, 0.002f),
 
     };
+
+    public EggInform[] egg = {
+        new EggInform("Белое", 1, 0.85f),
+        new EggInform("Коричневое", 3, 0.08f),
+        new EggInform("Серебрянное", 10, 0.05f),
+        new EggInform("Золотое", 50, 0.018f),
+        new EggInform("Алмазное", 100, 0.002f),
+        new EggInform("Редкое", 0, 0) };
+
+    public CollectEggInfo[] rareEggs;
 
     public Shop shop;
     #endregion
@@ -163,6 +173,7 @@ public class Location : MonoBehaviour
     #endregion
 }
 
+// Класс для хранения информации о текущих ценах на улучшения в магазине
 public class Shop
 {
     public int ClickPricePrice;
@@ -177,18 +188,29 @@ public class Shop
     }
 }
 
+// Класс для того чтоб задать вероятности выпадения валют - яиц на локации
+[System.Serializable]
 public class EggInform : Egg
 {
     public float weight;
 
-    public EggInform(string n, string d, int p, float weight) : base(n, d, p)
+    public EggInform(string n, int p, float weight) : base(n, p)
     {
         this.weight = weight;
     }
 
-    public EggInform(string n, string d, int p) : base(n, d, p)
+    public EggInform(string n, int p) : base(n, p)
     {
         this.weight = 0;
     }
+}
+
+public enum Locations
+{
+    Location1 = 1, 
+    Location2,
+    Location3,
+    Location4,
+    Location5
 }
 

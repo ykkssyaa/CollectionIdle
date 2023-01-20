@@ -18,6 +18,8 @@ public class PlayerCollector : MonoBehaviour
         new EggCollection("јлмазное", "", 100),
     };
 
+    public CollectEggInfo[] RareEggs;
+
     #endregion
 
     public void LoadCollection()
@@ -61,26 +63,34 @@ public class PlayerCollector : MonoBehaviour
     }
 }
 
+// Ѕазовый класс €йца
 public class Egg
 {
     public string name;
-    public string description;
-    public int price;
+    private int price;
 
-    public Egg(string n, string d, int p)
+    public Egg(string n, int p)
     {
         name = n; 
-        description = d;
         price = p;
+    }
+
+    public int GetPrice { 
+        get { return price; }
+        set { }
     }
 }
 
+//  ласс редкого €йца
 public class EggCollection : Egg
 {
     public int count;
+    public bool isEarned = false;
+    public string description;
 
-    public EggCollection(string n, string d, int p) : base(n, d, p)
+    public EggCollection(string n, string d, int p) : base(n, p)
     {
+        description = d;
         count = 0;
     }
 }
