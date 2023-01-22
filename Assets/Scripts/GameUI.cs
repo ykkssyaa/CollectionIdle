@@ -38,6 +38,10 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LuckValue;
     [SerializeField] private TextMeshProUGUI LuckPrice;
 
+    [Space(20)]
+    [Header("Shop")]
+    [SerializeField] private CollectionManager collectionManager;
+
     #endregion
 
     #region Button Methods

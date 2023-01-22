@@ -8,16 +8,7 @@ public class Location : MonoBehaviour
     #region Serialized Fields
     [SerializeField] private PlayerCollector collector;
 
-    private List<EggInform> eggs = new List<EggInform> {
-        new EggInform("Белое", 1, 0.85f),
-        new EggInform("Коричневое", 3, 0.08f),
-        new EggInform("Серебрянное", 10, 0.05f),
-        new EggInform("Золотое", 50, 0.018f),
-        new EggInform("Алмазное", 100, 0.002f),
-
-    };
-
-    public EggInform[] egg = {
+    public EggInform[] eggs = {
         new EggInform("Белое", 1, 0.85f),
         new EggInform("Коричневое", 3, 0.08f),
         new EggInform("Серебрянное", 10, 0.05f),
@@ -33,9 +24,6 @@ public class Location : MonoBehaviour
     #region Fields
     [Space(30)]
     [Header("Fields")]
-
-    // Шансы выпадения яиц(6 - специальное яйцо)
-    [SerializeField] private float[] weights = new float[6] { 0, 0, 0, 0, 0, 0};
 
     // Сколько кликов будет делать автокликер за один раз
     public int clicksPerTic = 0;
@@ -71,17 +59,14 @@ public class Location : MonoBehaviour
 
     #region Methods
 
+    #region Init
+
     public void InitLocation()
     {
         CheckWeights();
         shop = InitShop();
 
         StartCoroutine(AutoClicker());
-        
-        for(int i = 0; i < eggs.Count; i++)
-        {
-            eggs[i].weight = weights[i];
-        }
     }
 
     // Инициализация класса с ценами на улучшения
@@ -97,13 +82,15 @@ public class Location : MonoBehaviour
     {
         float res = 0;
 
-        foreach(float w in weights)
-            res += w;
+        foreach(var w in eggs)
+            res += w.weight;
 
         string logStr = string.Format("Location {0} has wrong chance weights, sum = {1}", locName, res);
 
         if(res > 1 || res <= 0) Debug.Log(logStr);
-    } 
+    }
+
+    #endregion
 
     // Сделать клик 
     public void MakeTic()
@@ -145,11 +132,21 @@ public class Location : MonoBehaviour
 
             if(t >= val)
             {
-                collector.UpdateCollection(item.name);
+                if (item.name == "Редкое")
+                    EarnRandomEgg();
+                else
+                    collector.UpdateCollection(item.name);
+
                 break;
             }
         }
     }
+
+    private void EarnRareEgg()
+    {
+
+    }
+
 
     #region Upgrade 
 

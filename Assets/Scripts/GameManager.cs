@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Collections;
 using UnityEngine;
 using TMPro;
 
@@ -16,13 +15,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Location> locations;
     private Location activeLocation;
     private int activeLocationIndex;
-    #endregion
-
-    #region Fields
-
-/*    [Space(30)]
-    [Header("Fields")]*/
-
     #endregion
 
     #region Unity Methods

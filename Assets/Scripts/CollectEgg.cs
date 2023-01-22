@@ -2,21 +2,34 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+public enum EggRare
+{
+    Common,
+    Rare,
+    Silver,
+    Gold,
+    Diamond,
+    None
+}
+
 public class CollectEgg : MonoBehaviour
 {
-    public EggCollection egg;
+    #region Field
 
+    public EggAsset Data;
+
+    [Space(10)]
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private Image image;
-    [SerializeField] private Sprite lockedSprite;
-    [SerializeField] private Sprite unlockedSprite;
 
-    public void InitEgg() 
+    #endregion
+
+    public void InitEgg(Sprite srt) 
     {
-        if(!egg.isEarned) 
+        if(Data.count == 0) 
         { 
             nameText.text = "???";
-            image.sprite = lockedSprite;
+            image.sprite = srt;
         }
         else
         {
@@ -27,11 +40,10 @@ public class CollectEgg : MonoBehaviour
 
     public void UnlockEgg()
     {
-        nameText.text = egg.name;
-        image.sprite = unlockedSprite;
+        nameText.text = Data.eggName;
+        image.sprite = Data.icon;
     }
 
-    
 }
 
 [System.Serializable]

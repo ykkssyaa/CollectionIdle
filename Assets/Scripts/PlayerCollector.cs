@@ -18,8 +18,6 @@ public class PlayerCollector : MonoBehaviour
         new EggCollection("Алмазное", "", 100),
     };
 
-    public CollectEggInfo[] RareEggs;
-
     #endregion
 
     public void LoadCollection()
@@ -85,7 +83,6 @@ public class Egg
 public class EggCollection : Egg
 {
     public int count;
-    public bool isEarned = false;
     public string description;
 
     public EggCollection(string n, string d, int p) : base(n, p)
