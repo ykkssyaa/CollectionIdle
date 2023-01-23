@@ -8,7 +8,6 @@ public class EggAsset : ScriptableObject
 
     public string eggName;
     public int price;
-    public int count;
     public string description;
     public EggRare rare;
 

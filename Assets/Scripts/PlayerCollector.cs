@@ -8,7 +8,8 @@ public class PlayerCollector : MonoBehaviour
 
     public int money;
     
-     public GameUI gameUI;
+    public GameUI gameUI;
+    public CollectionManager collectionManager;
 
     private List<EggCollection> collection = new List<EggCollection> { 
         new EggCollection("Белое", "", 1),
@@ -28,6 +29,9 @@ public class PlayerCollector : MonoBehaviour
         collection[2].count = 0;
         collection[3].count = 0;
         collection[4].count = 0;
+
+        // Инициализация экрана коллекции с учетом того, что есть у игрока
+        collectionManager.InitCollection();
     }
 
     public void UpdateMoney(int value)

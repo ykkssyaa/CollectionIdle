@@ -18,18 +18,21 @@ public class CollectEgg : MonoBehaviour
 
     public EggAsset Data;
 
+    public int count = 0;
+
     [Space(10)]
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private Image image;
 
     #endregion
 
-    public void InitEgg(Sprite srt) 
+    public void InitEgg() 
     {
-        if(Data.count == 0) 
-        { 
+        if(count == 0) 
+        {
+            return;
             nameText.text = "???";
-            image.sprite = srt;
+            //image.sprite = srt;
         }
         else
         {
