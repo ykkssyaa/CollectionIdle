@@ -11,7 +11,11 @@ public class CollectionManager : MonoBehaviour
     // Родитель всех яиц в иерархии
     [SerializeField] private Transform content;
 
+    [SerializeField] private GameObject InformationEggScreen; 
+    [SerializeField] private GameObject CollectionContentScreen;
+         
     public List<CollectEgg> AllRareEggs = new List<CollectEgg>();
+
 
 
     public void LoadRareEggs()
@@ -31,8 +35,15 @@ public class CollectionManager : MonoBehaviour
             egg.InitEgg();
         }
     }
+
+    public void OnEggClick(CollectEgg egg)
+    {
+        InformationEggScreen.SetActive(true);
+        CollectionContentScreen.SetActive(false);
+    }
 }
 
+[System.Serializable]
 public class RareColor
 {
     public Color color;

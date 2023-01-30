@@ -15,6 +15,7 @@ public class GameUI : MonoBehaviour
 
     [SerializeField] private GameObject GameScreen;
     [SerializeField] private GameObject ShopScreen;
+    [SerializeField] private GameObject CollectionScreen;
 
     [Space]
     [SerializeField] private TextMeshProUGUI MoneyText;
@@ -39,7 +40,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LuckPrice;
 
     [Space(20)]
-    [Header("Shop")]
+    [Header("Collection")]
     [SerializeField] private CollectionManager collectionManager;
 
     #endregion
@@ -69,6 +70,12 @@ public class GameUI : MonoBehaviour
         gameManager.ChangeLocation(index);
 
         // else try buy acsess to location
+    }
+
+    public void CollectionButton()
+    {
+        CollectionScreen.SetActive(true);
+        GameScreen.SetActive(false);
     }
 
     #region Shop

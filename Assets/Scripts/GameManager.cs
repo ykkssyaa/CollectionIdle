@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     public void MakeTic()
     {
-        Debug.Log("Make Tic in GameManager");
+        //Debug.Log("Make Tic in GameManager");
 
         if (activeLocation == null) { return;}
 

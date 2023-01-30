@@ -80,6 +80,7 @@ public class Location : MonoBehaviour
     // Проверка корректности ввода шансов выпадения
     private void CheckWeights()
     {
+        // Проверка корректности вероятностей обычных яиц
         float res = 0;
 
         foreach(var w in eggs)
@@ -88,6 +89,16 @@ public class Location : MonoBehaviour
         string logStr = string.Format("Location {0} has wrong chance weights, sum = {1}", locName, res);
 
         if(res > 1 || res <= 0) Debug.Log(logStr);
+
+
+        // Проверка корректности вероятностей редких яиц
+        res = 0;
+        foreach (var w in rareEggs)
+            res += w.weight;
+
+        logStr = string.Format("Location {0} has wrong chance weights in rare eggs, sum = {1}", locName, res);
+
+        if (res > 1 || res <= 0) Debug.Log(logStr);
     }
 
     #endregion
@@ -95,7 +106,7 @@ public class Location : MonoBehaviour
     // Сделать клик 
     public void MakeTic()
     {
-        Debug.Log("Make Tic in Location");
+   //     Debug.Log("Make Tic in Location");
 
         curClicks += clicksPerClick;
 
@@ -121,22 +132,23 @@ public class Location : MonoBehaviour
     // Определение, какое яйцо выпадет
     private void EarnRandomEgg()
     {
-        Debug.Log("Earn New Egg in " + locName) ;
+       // Debug.Log("Earn New Egg in " + locName) ;
 
         float val = Random.value;
         float t = 0;
 
-        foreach(var item in eggs)
+        Debug.Log(val);
+
+        foreach (var item in eggs)
         {
             t += item.weight;
 
             if(t >= val)
             {
                 if (item.name == "Редкое")
-                    EarnRandomEgg();
+                    EarnRareEgg();
                 else
                     collector.UpdateCollection(item.name);
-
                 break;
             }
         }
@@ -144,7 +156,23 @@ public class Location : MonoBehaviour
 
     private void EarnRareEgg()
     {
+        float val = Random.value;
+        float t = 0;
 
+        Debug.Log("Earn New Rare Egg in " + locName);
+
+        foreach (CollectEggInfo egg in rareEggs)
+        {
+            t += egg.weight;
+
+            if(t >= val)
+            {
+                egg.egg.UnlockEgg();
+                egg.egg.count++;
+                Debug.Log("Earned " + egg.egg.Data.name);
+                break;
+            }
+        }
     }
 
 

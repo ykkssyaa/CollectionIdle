@@ -31,8 +31,6 @@ public class CollectEgg : MonoBehaviour
         if(count == 0) 
         {
             return;
-            nameText.text = "???";
-            //image.sprite = srt;
         }
         else
         {
