@@ -169,7 +169,7 @@ public class Location : MonoBehaviour
             {
                 egg.egg.UnlockEgg();
                 egg.egg.count++;
-                Debug.Log("Earned " + egg.egg.Data.name);
+               // Debug.Log("Earned " + egg.egg.Data.eggName);
                 break;
             }
         }
